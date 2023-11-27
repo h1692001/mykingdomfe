@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import CartItem from "./CartItem";
 import { formatCurrency } from "../../../utils/convertPrice";
+import { Link } from "react-router-dom";
 
 const Cart = () => {
     const { cart } = useSelector(state => state.cart);
@@ -39,9 +40,10 @@ const Cart = () => {
                     <p>-{formatCurrency(cart?.cartProducts?.reduce((arr, cur) => { return arr += (cur?.productDTO?.price - cur?.productDTO?.price * cur?.productDTO?.saleOff / 100) * cur?.amount }, 0))} VND</p>
                 </div>
 
-                <div style={{ color: 'white', backgroundColor: 'red', fontWeight: '600', fontSize: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '13px 24px 10px', borderRadius: '8px' }}>
+                <Link to='/payment' style={{ color: 'white', backgroundColor: 'red', fontWeight: '600', fontSize: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '13px 24px 10px', borderRadius: '8px' }}
+                >
                     <p>TIẾN HÀNH THANH TOÁN</p>
-                </div>
+                </Link>
             </div>
 
 

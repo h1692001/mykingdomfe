@@ -20,6 +20,7 @@ import AllProduct from './Components/AllProduct/AllProduct';
 import CartApi from './api/CartApi';
 import Cart from './pages/public/Cart/Cart';
 import { fetchCart } from './store/actions/cartAction';
+import Payment from './pages/public/Payment/Payment';
 
 function App() {
   const { isLoggedIn, userCurrent } = useSelector((state) => state.auth);
@@ -51,6 +52,7 @@ function App() {
           <Route path="detailProduct/:id" element={<DetailProduct></DetailProduct>}></Route>
           <Route path="category" element={<AllProduct></AllProduct>}></Route>
           <Route path="cart" element={<Cart></Cart>}></Route>
+          <Route path="payment" element={<Payment></Payment>}></Route>
         </Route>
         <Route path="/admin/*" element={<Dashboard />}>
           <Route index element={<ManageBrand />} />
