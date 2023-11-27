@@ -16,6 +16,10 @@ const ProductApi = {
     const url = `/product/getByBrand?brandId=` + id;
     return axiosClients.get(url);
   },
+  getById: (id) => {
+    const url = `/product/getById?id=` + id;
+    return axiosClients.get(url);
+  },
   createProduct: (data) => {
     const url = '/product';
     return axiosClients.post(url, data);

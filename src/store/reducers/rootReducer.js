@@ -1,9 +1,10 @@
-import { persistReducer } from "redux-persist";
-import storage from "redux-persist/lib/storage";
-import autoMergeLevel2 from "redux-persist/es/stateReconciler/autoMergeLevel2";
-import { combineReducers } from "redux";
+import { persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
+import autoMergeLevel2 from 'redux-persist/es/stateReconciler/autoMergeLevel2';
+import { combineReducers } from 'redux';
+import CartReducer from './cartReducer';
 
-import authReducer from "./authReducer";
+import authReducer from './authReducer';
 
 const commonConfig = {
   storage,
@@ -12,12 +13,13 @@ const commonConfig = {
 
 const authConfig = {
   ...commonConfig,
-  key: "auth",
-  whitelist: ["isLoggedIn", "accessToken"],
+  key: 'auth',
+  whitelist: ['isLoggedIn', 'accessToken'],
 };
 
 const rootReducer = combineReducers({
   auth: persistReducer(authConfig, authReducer),
+  cart: CartReducer,
 });
 
 export default rootReducer;

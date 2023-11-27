@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { Carousel } from 'antd';
 import './SpecialSale.scss';
 import { formatCurrency } from '../../utils/convertPrice';
+import { Link } from 'react-router-dom';
 
 export default function Lego({ cate }) {
   const [data, setData] = useState([]);
@@ -33,7 +34,7 @@ export default function Lego({ cate }) {
               <Carousel autoplay dotPosition={'bottom'}>
                 {data.map((dt) => {
                   return (
-                    <div className="SpecialSale_ProductItem" key={dt.id}>
+                    <Link to={'/detailProduct/' + dt.id} className="SpecialSale_ProductItem" key={dt.id}>
                       <div
                         className="SpecialSale_ProductItem_Image"
                         style={{
@@ -50,7 +51,7 @@ export default function Lego({ cate }) {
                           <div style={{ color: '#444', fontSize: '12px', textDecorationLine: 'line-through', textDecorationStyle: 'solid', fontWeight: '600' }}>{formatCurrency(dt.price)} VNĐ</div>
                         </div>
                       </div>
-                    </div>
+                    </Link>
                   );
                 })}
               </Carousel>

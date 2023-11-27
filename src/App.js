@@ -1,8 +1,6 @@
 import React from 'react';
 import './App.scss';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import AdminApp from './AdminApp';
-import ClientApp from './ClientApp';
 import GuestApp from './GuestApp';
 import { useNavigate } from 'react-router-dom';
 import { logout, getCurrentUser } from './store/actions/authAction';
@@ -17,7 +15,11 @@ import ManageBrand from './pages/admin/ManageBrand';
 import ManageProduct from './pages/admin/ManageProduct';
 import ManageCategory from './pages/admin/ManageCategory';
 import CreateProduct from './pages/admin/CreateProduct';
-import DetailProduct from './pages/public/DetailProduct';
+import DetailProduct from './pages/public/DetailProduct/DetailProduct';
+import AllProduct from './Components/AllProduct/AllProduct';
+import CartApi from './api/CartApi';
+import Cart from './pages/public/Cart/Cart';
+import { fetchCart } from './store/actions/cartAction';
 
 function App() {
   const { isLoggedIn, userCurrent } = useSelector((state) => state.auth);
@@ -28,12 +30,13 @@ function App() {
     try {
       const res = await UserApi.getCurrentUser();
       dispatch(getCurrentUser(res));
+      const res2 = await CartApi.getCart(res?.id);
+      dispatch(fetchCart(res2));
     } catch (err) {
       navigate('/');
       dispatch(logout());
     }
   };
-
   useEffect(() => {
     if (JSON.parse(localStorage.getItem('persist:auth'))?.isLoggedIn === 'true') {
       checkAccess();
@@ -45,7 +48,9 @@ function App() {
       <Routes>
         <Route path="/" element={<Public></Public>}>
           <Route path="" element={<Homepage></Homepage>}></Route>
-          <Route path="detailProduct/:id"></Route>
+          <Route path="detailProduct/:id" element={<DetailProduct></DetailProduct>}></Route>
+          <Route path="category" element={<AllProduct></AllProduct>}></Route>
+          <Route path="cart" element={<Cart></Cart>}></Route>
         </Route>
         <Route path="/admin/*" element={<Dashboard />}>
           <Route index element={<ManageBrand />} />

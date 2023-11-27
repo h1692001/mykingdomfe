@@ -2,16 +2,18 @@ import React, { useEffect, useState } from 'react';
 import './Header.scss';
 import IconPhone from '../../Assets/Images/Icons/icon_phone.png';
 import 'font-awesome/css/font-awesome.min.css';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { CiSearch } from 'react-icons/ci';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../../store/actions/authAction';
+import { Dropdown, Space, Col, Divider, Row } from 'antd';
 
 export default function Header() {
   const [isFixed, setIsFixed] = useState(false);
   const { isLoggedIn, userCurrent } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-
+  const { cart } = useSelector((state) => state.cart);
+  console.log(cart);
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
     return () => {
@@ -47,6 +49,7 @@ export default function Header() {
   const newProduct = () => {
     navigate('/guest/allProduct');
   };
+
   return (
     <>
       <div className="Header_One_Container">
@@ -125,10 +128,13 @@ export default function Header() {
               </div>
             </div>
 
-            <div className="Header_Two_Content_Cart">
-              <div className="Header_Two_Content_Cart_Icon">
-                <i class="fa fa-cart-arrow-down" aria-hidden="true" style={{ fontSize: '30px', marginTop: '35px' }}></i>
+            <div className="Header_Two_Content_Cart relative">
+              <div className="absolute w-[20px] h-[20px] flex items-center justify-center text-[13px] rounded-[50%] leading-1 bg-[#d9554a] text-[#fff] top-[25px] left-[6px] inline-block">
+                <p style={{ lineHeight: '10px' }}>{cart?.cartProducts && cart?.cartProducts?.length > 0 ? cart?.cartProducts.length : 0}</p>
               </div>
+              <Link to="/cart" className="Header_Two_Content_Cart_Icon">
+                <i class="fa fa-cart-arrow-down" aria-hidden="true" style={{ fontSize: '30px', marginTop: '35px' }}></i>
+              </Link>
               <div className="Header_Two_Content_Cart_Text">GIỎ HÀNG</div>
             </div>
           </div>
@@ -140,7 +146,9 @@ export default function Header() {
             <span onClick={newProduct}>HÀNG MỚI</span>
           </div>
           <div className="Product">
-            <span>SẢN PHẨM</span>
+            <Link to="/category" style={{ fontWeight: '600', color: 'white' }}>
+              SẢN PHẨM
+            </Link>
           </div>
           <div className="Gender">
             <span>GIỚI TÍNH</span>

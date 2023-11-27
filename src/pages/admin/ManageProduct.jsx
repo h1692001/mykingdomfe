@@ -85,10 +85,6 @@ const ManageProduct = () => {
         fetchData();
     }, [])
 
-    function createMarkup(des) {
-        return { __html: des };
-    }
-
     return <>
         <Header
             style={{
