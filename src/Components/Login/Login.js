@@ -36,7 +36,9 @@ export default function Login() {
       });
 
       dispatch(login(res));
-      navigate('/');
+      setTimeout(() => {
+        navigate('/');
+      }, 300);
       setIsLoading(false);
     } catch (e) {
       setIsLoading(false);

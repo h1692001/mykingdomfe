@@ -37,7 +37,7 @@ const Cart = () => {
 
                 <div style={{ padding: '23px 0', fontWeight: '600', fontSize: '20px', justifyContent: 'space-between' }} className="flex">
                     <p style={{}}>THÀNH TIỀN</p>
-                    <p>-{formatCurrency(cart?.cartProducts?.reduce((arr, cur) => { return arr += (cur?.productDTO?.price - cur?.productDTO?.price * cur?.productDTO?.saleOff / 100) * cur?.amount }, 0))} VND</p>
+                    <p>{formatCurrency(cart?.cartProducts?.reduce((arr, cur) => { return arr += (cur?.productDTO?.price - cur?.productDTO?.price * cur?.productDTO?.saleOff / 100) * cur?.amount }, 0))} VND</p>
                 </div>
 
                 <Link to='/payment' style={{ color: 'white', backgroundColor: 'red', fontWeight: '600', fontSize: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '13px 24px 10px', borderRadius: '8px' }}
