@@ -12,7 +12,13 @@ function getItem(label, key, icon, children) {
     label,
   };
 }
-const items = [getItem('Manage Brand', '', <PieChartOutlined />), getItem('Manage Category', '/managecategory', <DesktopOutlined />), getItem('Manage Product', '/manageproduct', <FileOutlined />)];
+const items = [
+  getItem('Manage Brand', '', <PieChartOutlined />),
+  getItem('Manage Category', '/managecategory', <DesktopOutlined />),
+  getItem('Manage Product', '/manageproduct', <FileOutlined />),
+  getItem('Manage Bill', '/managebill', <FileOutlined />),
+  getItem('Manage Sale', '/managesale', <FileOutlined />),
+];
 const Dashboard = () => {
   const [collapsed, setCollapsed] = useState(false);
   const navigate = useNavigate();
@@ -39,7 +45,6 @@ const Dashboard = () => {
           mode="inline"
           items={items}
           onClick={(item, key, keyPath, domEvent) => {
-            console.log(item);
             navigate('/admin' + item.key);
           }}
         />

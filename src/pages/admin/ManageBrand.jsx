@@ -66,6 +66,7 @@ const ManageBrand = () => {
         try {
             setIsLoading(true);
             const res = await BrandApi.getAllBrand();
+            console.log(res);
             const res2 = await CategoryApi.getAllCategory();
             setData(res);
             const categoryOption = [];

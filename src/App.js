@@ -21,6 +21,8 @@ import CartApi from './api/CartApi';
 import Cart from './pages/public/Cart/Cart';
 import { fetchCart } from './store/actions/cartAction';
 import Payment from './pages/public/Payment/Payment';
+import ManageBill from './pages/admin/ManageBill';
+import ManageSale from './pages/admin/ManageSale';
 
 function App() {
   const { isLoggedIn, userCurrent } = useSelector((state) => state.auth);
@@ -59,6 +61,8 @@ function App() {
           <Route path="createProduct" element={<CreateProduct></CreateProduct>}></Route>
           <Route path="manageproduct" element={<ManageProduct></ManageProduct>}></Route>
           <Route path="managecategory" element={<ManageCategory></ManageCategory>}></Route>
+          <Route path="managebill" element={<ManageBill></ManageBill>}></Route>
+          <Route path="managesale" element={<ManageSale></ManageSale>}></Route>
         </Route>
         <Route path="/guest/*" element={<GuestApp />} />
       </Routes>

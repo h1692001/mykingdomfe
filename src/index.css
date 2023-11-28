@@ -10,3 +10,7 @@
 .ant-btn-primary {
   background-color: blue !important;
 }
+
+.ant-btn-error {
+  background-color: red !important;
+}
