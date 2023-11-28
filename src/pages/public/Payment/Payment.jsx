@@ -4,12 +4,20 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { formatCurrency } from "../../../utils/convertPrice";
 import BillApi from "../../../api/BillApi"
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 const Payment = () => {
     const { cart } = useSelector(state => state.cart);
     const [paymentMethod, setPaymentMethod] = useState('cash');
     const [name, setName] = useState("");
     const [phone, setPhone] = useState("");
     const [address, setAddress] = useState("");
+    const navigate = useNavigate();
+    useEffect(() => {
+        if (cart?.cartProducts?.length === 0) {
+            navigate('/')
+        }
+    }, [])
     const { userCurrent } = useSelector(state => state.auth);
     const columns = [
         {

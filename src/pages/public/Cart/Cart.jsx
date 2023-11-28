@@ -3,9 +3,12 @@ import { useSelector } from "react-redux";
 import CartItem from "./CartItem";
 import { formatCurrency } from "../../../utils/convertPrice";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
     const { cart } = useSelector(state => state.cart);
+    const navigate = useNavigate();
     return <div className="flex justify-center">
         <div className="pt-[40px] max-w-[1330px] w-full flex justify-between" style={{ justifyContent: 'space-between', maxWidth: '1330px', width: '100%', paddingTop: '40px' }}>
             <div style={{ width: '45%' }}>
@@ -40,10 +43,16 @@ const Cart = () => {
                     <p>{formatCurrency(cart?.cartProducts?.reduce((arr, cur) => { return arr += (cur?.productDTO?.price - cur?.productDTO?.price * cur?.productDTO?.saleOff / 100) * cur?.amount }, 0))} VND</p>
                 </div>
 
-                <Link to='/payment' style={{ color: 'white', backgroundColor: 'red', fontWeight: '600', fontSize: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '13px 24px 10px', borderRadius: '8px' }}
+                <div onClick={() => {
+                    if (cart?.cartProducts?.length > 0) {
+                        navigate('/payment')
+                    } else {
+                        Swal("Oops!", "Bạn chưa có sản phẩm nào trong giỏ hàng", 'error')
+                    }
+                }} style={{ color: 'white', backgroundColor: 'red', fontWeight: '600', fontSize: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '13px 24px 10px', borderRadius: '8px' }}
                 >
                     <p>TIẾN HÀNH THANH TOÁN</p>
-                </Link>
+                </div>
             </div>
 
 
