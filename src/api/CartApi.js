@@ -5,7 +5,11 @@ const CartApi = {
     return axiosClients.get(url);
   },
   deleteFromCart: (id) => {
-    const url = `/cart?id` + id;
+    const url = `/cart?id=` + id;
+    return axiosClients.delete(url);
+  },
+  deleteAllCart: (id) => {
+    const url = `/cart/deleteAllCartItem?id=` + id;
     return axiosClients.delete(url);
   },
   addToCart: (data) => {

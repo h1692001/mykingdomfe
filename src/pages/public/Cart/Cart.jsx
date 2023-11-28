@@ -44,10 +44,11 @@ const Cart = () => {
                 </div>
 
                 <div onClick={() => {
+                    console.log(cart);
                     if (cart?.cartProducts?.length > 0) {
                         navigate('/payment')
                     } else {
-                        Swal("Oops!", "Bạn chưa có sản phẩm nào trong giỏ hàng", 'error')
+                        Swal.fire("Oops!", "Bạn chưa có sản phẩm nào trong giỏ hàng", 'error')
                     }
                 }} style={{ color: 'white', backgroundColor: 'red', fontWeight: '600', fontSize: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '13px 24px 10px', borderRadius: '8px' }}
                 >

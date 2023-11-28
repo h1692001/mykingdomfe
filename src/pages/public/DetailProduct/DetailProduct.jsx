@@ -13,6 +13,7 @@ import { CiHeart } from "react-icons/ci";
 import CartApi from "../../../api/CartApi";
 import { fetchCart } from "../../../store/actions/cartAction";
 import { useDispatch, useSelector } from "react-redux";
+import Swal from "sweetalert2";
 
 const DetailProduct = () => {
     const [product, setProduct] = useState();
@@ -41,7 +42,6 @@ const DetailProduct = () => {
         fetchProduct();
     }, [])
 
-    console.log(cart);
     function createMarkup(des) {
         return { __html: des };
     }
@@ -94,15 +94,14 @@ const DetailProduct = () => {
                                             amount: amount
                                         })
                                         dispatch(fetchCart(res));
+                                        Swal.fire("Yeah!", "Đã thêm sản phẩm này vào giỏ hàng", "success")
                                     }
                                     catch (e) { }
                                 }
-
                                 addToCart();
                             }}>
                             <p>THÊM VÀO GIỎ HÀNG</p>
                         </div>
-
                         <CiHeart style={{ color: "#f04e45", fontSize: '40px', marginTop: '10px' }}></CiHeart>
                     </div>
                 </div>

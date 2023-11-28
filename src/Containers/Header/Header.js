@@ -76,7 +76,12 @@ export default function Header() {
       </div>
       <div className="Header_Two_Container">
         <div className="Header_Two">
-          <div className="Header_Two_Logo"></div>
+          <div
+            className="Header_Two_Logo"
+            onClick={() => {
+              navigate('/');
+            }}
+          ></div>
           <div className="flex items-center h-[40px] shadow-2xl">
             <input className="h-full  px-[20px] w-[400px] outline-none" placeholder="Tìm kiếm sản phẩm ..."></input>
             <div className="px-[40px] text-[22px] bg-[#f7f9fa] h-full flex items-center text-primary">

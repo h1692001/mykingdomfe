@@ -1,4 +1,4 @@
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Input, Table, Breadcrumb, Radio, Space } from 'antd';
 import { Link } from "react-router-dom";
 import { useState } from "react";
@@ -6,6 +6,9 @@ import { formatCurrency } from "../../../utils/convertPrice";
 import BillApi from "../../../api/BillApi"
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import Swal from "sweetalert2";
+import CartApi from "../../../api/CartApi";
+import { fetchCart } from "../../../store/actions/cartAction";
 const Payment = () => {
     const { cart } = useSelector(state => state.cart);
     const [paymentMethod, setPaymentMethod] = useState('cash');
@@ -14,7 +17,7 @@ const Payment = () => {
     const [address, setAddress] = useState("");
     const navigate = useNavigate();
     useEffect(() => {
-        if (cart?.cartProducts?.length === 0) {
+        if (cart?.cartProducts?.length === 0 || !cart?.cartProducts) {
             navigate('/')
         }
     }, [])
@@ -47,8 +50,7 @@ const Payment = () => {
             </div>,
         },
     ];
-
-    console.log(userCurrent);
+    const dispatch = useDispatch();
 
     return <div style={{ display: 'flex', justifyContent: 'center' }}>
         <div style={{ maxWidth: '1330px', width: '100%', paddingBottom: '30px' }} className="">
@@ -105,22 +107,32 @@ const Payment = () => {
 
                     <div onClick={() => {
                         const pay = async () => {
-                            const res = await BillApi.createBill({
-                                status: "PENDING",
-                                createdAt: new Date(),
-                                paymentMethod: paymentMethod,
-                                name: name,
-                                phone: phone,
-                                address: address,
-                                userId: userCurrent?.id,
-                                cartId: cart?.id,
-                                billItemDTOS: cart?.cartProducts?.map(ct => {
-                                    return {
-                                        amount: ct.amount,
-                                        productDTO: ct.productDTO
-                                    }
+                            try {
+                                const res = await BillApi.createBill({
+                                    status: "PENDING",
+                                    createdAt: new Date(),
+                                    paymentMethod: paymentMethod,
+                                    name: name,
+                                    phone: phone,
+                                    address: address,
+                                    userId: userCurrent?.id,
+                                    cartId: cart?.id,
+                                    billItemDTOS: cart?.cartProducts?.map(ct => {
+                                        return {
+                                            amount: ct.amount,
+                                            productDTO: ct.productDTO
+                                        }
+                                    })
                                 })
-                            })
+                                const res2 = await CartApi.getCart(userCurrent?.id);
+                                dispatch(fetchCart(res2));
+                                Swal.fire("Thành công", "Đơn hàng đã được đặt!", "success");
+                                navigate("/")
+                            }
+                            catch (e) {
+                                Swal.fire("Oops", "Có lỗi xảy ra! Vui lòng thử lại sau", "error");
+
+                            }
                         }
                         pay();
                     }} style={{ marginTop: '20px', color: 'white', backgroundColor: 'red', fontWeight: '600', fontSize: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '13px 24px 10px', borderRadius: '8px' }}

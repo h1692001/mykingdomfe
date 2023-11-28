@@ -31,7 +31,7 @@ export default function Lego({ cate }) {
         <div className="SpecialSale_Container">
           <div className="SpecialSale">
             <div className="SpecialSale_Product">
-              <Carousel autoplay dotPosition={'bottom'}>
+              <Carousel autoplay dotPosition={'bottom'} slidesToShow={data.length > 4 ? 4 : data.length}>
                 {data.map((dt) => {
                   return (
                     <Link to={'/detailProduct/' + dt.id} className="SpecialSale_ProductItem" key={dt.id}>
