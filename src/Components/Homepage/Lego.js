@@ -31,28 +31,30 @@ export default function Lego({ cate }) {
         <div className="SpecialSale_Container">
           <div className="SpecialSale">
             <div className="SpecialSale_Product">
-              <Carousel autoplay dotPosition={'bottom'} slidesToShow={data.length > 4 ? 4 : data.length}>
+              <Carousel autoplay dotPosition={'bottom'} slidesToShow={data.filter((ss) => ss.isHidden !== true).length > 4 ? 4 : data.filter((ss) => ss.isHidden !== true).length}>
                 {data.map((dt) => {
-                  return (
-                    <Link to={'/detailProduct/' + dt.id} className="SpecialSale_ProductItem" key={dt.id}>
-                      <div
-                        className="SpecialSale_ProductItem_Image"
-                        style={{
-                          backgroundImage: `url(${dt.images[0]})`,
-                        }}
-                        onMouseOver={(e) => (e.currentTarget.style.backgroundImage = `url(${dt.images[1] ? dt.images[1] : dt.images[0]})`)}
-                        onMouseOut={(e) => (e.currentTarget.style.backgroundImage = `url(${dt.images[0]})`)}
-                      ></div>
-                      <div style={{ padding: '10px 10px 0 10px' }}>
-                        <div className="SpecialSale_ProductItem_NameProduct">{dt.name}</div>
-                        <div className="SpecialSale_ProductItem_ProductCode">SKU: {dt.sku}</div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '6px' }}>
-                          <div className="SpecialSale_ProductItem_Price">{formatCurrency(dt.price - (dt.price * dt.saleOff) / 100)} VNĐ</div>
-                          <div style={{ color: '#444', fontSize: '12px', textDecorationLine: 'line-through', textDecorationStyle: 'solid', fontWeight: '600' }}>{formatCurrency(dt.price)} VNĐ</div>
+                  console.log(dt);
+                  if (dt?.isHidden !== true)
+                    return (
+                      <Link to={'/detailProduct/' + dt.id} className="SpecialSale_ProductItem" key={dt.id}>
+                        <div
+                          className="SpecialSale_ProductItem_Image"
+                          style={{
+                            backgroundImage: `url(${dt.images[0]})`,
+                          }}
+                          onMouseOver={(e) => (e.currentTarget.style.backgroundImage = `url(${dt.images[1] ? dt.images[1] : dt.images[0]})`)}
+                          onMouseOut={(e) => (e.currentTarget.style.backgroundImage = `url(${dt.images[0]})`)}
+                        ></div>
+                        <div style={{ padding: '10px 10px 0 10px' }}>
+                          <div className="SpecialSale_ProductItem_NameProduct">{dt.name}</div>
+                          <div className="SpecialSale_ProductItem_ProductCode">SKU: {dt.sku}</div>
+                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '6px' }}>
+                            <div className="SpecialSale_ProductItem_Price">{formatCurrency(dt.price - (dt.price * dt.saleOff) / 100)} VNĐ</div>
+                            <div style={{ color: '#444', fontSize: '12px', textDecorationLine: 'line-through', textDecorationStyle: 'solid', fontWeight: '600' }}>{formatCurrency(dt.price)} VNĐ</div>
+                          </div>
                         </div>
-                      </div>
-                    </Link>
-                  );
+                      </Link>
+                    );
                 })}
               </Carousel>
             </div>

@@ -24,6 +24,7 @@ import Payment from './pages/public/Payment/Payment';
 import ManageBill from './pages/admin/ManageBill';
 import ManageSale from './pages/admin/ManageSale';
 import UserProfile from './pages/public/User/UserProfile';
+import UpdateProduct from './pages/admin/UpdateProduct';
 
 function App() {
   const { isLoggedIn, userCurrent } = useSelector((state) => state.auth);
@@ -61,6 +62,7 @@ function App() {
         <Route path="/admin/*" element={<Dashboard />}>
           <Route index element={<ManageBrand />} />
           <Route path="createProduct" element={<CreateProduct></CreateProduct>}></Route>
+          <Route path="updateProduct/:id" element={<UpdateProduct></UpdateProduct>}></Route>
           <Route path="manageproduct" element={<ManageProduct></ManageProduct>}></Route>
           <Route path="managecategory" element={<ManageCategory></ManageCategory>}></Route>
           <Route path="managebill" element={<ManageBill></ManageBill>}></Route>
