@@ -22,6 +22,7 @@ const authReducer = (state = initState, action) => {
           email: action.action.email,
           avatar: action.action.avatar,
           role: action.action.role,
+          dob: action.action.dob,
         },
       };
     case actionTypes.LOGIN_FAIL:
@@ -51,6 +52,7 @@ const authReducer = (state = initState, action) => {
           email: action.action.email,
           avatar: action.action.avatar,
           role: action.action.role,
+          dob: action.action.dob,
         },
       };
     default:

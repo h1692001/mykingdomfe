@@ -4,9 +4,6 @@ import BillApi from '../../api/BillApi';
 import { Space, Table, Spin, Button, Modal, Input, Select } from 'antd';
 import Swal from 'sweetalert2';
 const { Header } = Layout;
-
-
-
 const ManageBill = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [data, setData] = useState([]);

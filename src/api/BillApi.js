@@ -4,6 +4,10 @@ const BillApi = {
     const url = `/product/getAllBill`;
     return axiosClients.get(url);
   },
+  getAllBillByUserId: (id) => {
+    const url = `/product/getAllBillByUserId?userId=` + id;
+    return axiosClients.get(url);
+  },
   createBill: (data) => {
     const url = '/bill';
     return axiosClients.post(url, data);
