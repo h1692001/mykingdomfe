@@ -1,14 +1,11 @@
-
-import axios from "axios";
+import axios from 'axios';
 
 const axiosClients = axios.create({
-  baseURL: "http://localhost:8080",
+  baseURL: 'https://mykingdombe-production.up.railway.app',
 });
 
 axiosClients.interceptors.request.use(async (config) => {
-  let token =
-    window.localStorage.getItem("persist:auth") &&
-    JSON.parse(window.localStorage.getItem("persist:auth"))?.accessToken;
+  let token = window.localStorage.getItem('persist:auth') && JSON.parse(window.localStorage.getItem('persist:auth'))?.accessToken;
   if (token) token = token.slice(1, token.length - 1);
   config.headers = {
     authorization: token,
