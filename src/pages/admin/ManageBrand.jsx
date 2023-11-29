@@ -6,51 +6,58 @@ import { Space, Table, Spin, Button, Modal, Input, Select } from 'antd';
 import Swal from 'sweetalert2';
 const { Header } = Layout;
 
-const columns = [
-    {
-        title: 'Logo',
-        dataIndex: 'logo',
-        key: 'logo',
-        render: (text) => <img src={text} style={{
-            width: '108px',
-            height: "54px",
-            objectFit: 'cover'
-        }} alt='logo'></img>,
-    },
-    {
-        title: 'Name brand',
-        dataIndex: 'name',
-        key: 'name',
-        render: (text) => <p>{text}</p>,
-    },
-    {
-        title: 'Come from',
-        dataIndex: 'comeFrom',
-        key: 'comeFrom',
-    },
-    {
-        title: 'Action',
-        key: 'action',
-        render: (_, record) => (
-            <Space size="middle">
-                <Button type="primary" style={{
-                    backgroundColor: "green !important"
-                }}>Edit</Button>
-            </Space>
-        ),
-    },
-];
 
 const ManageBrand = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [data, setData] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isModalOpenEdit, setIsModalOpenEdit] = useState(false);
+    const [editProduct, setEditProduct] = useState({});
     const [category, setCategory] = useState([]);
     const [newBrand, setNewBrand] = useState({
         logo: null,
         name: '',
         comeFrom: '',
     });
+
+    const columns = [
+        {
+            title: 'Logo',
+            dataIndex: 'logo',
+            key: 'logo',
+            render: (text) => <img src={text} style={{
+                width: '108px',
+                height: "54px",
+                objectFit: 'cover'
+            }} alt='logo'></img>,
+        },
+        {
+            title: 'Tên',
+            dataIndex: 'name',
+            key: 'name',
+            render: (text) => <p>{text}</p>,
+        },
+        {
+            title: 'Xuất xứ',
+            dataIndex: 'comeFrom',
+            key: 'comeFrom',
+        },
+        {
+            title: '',
+            key: 'action',
+            render: (_, record) => (
+                <Space size="middle">
+                    <Button type="primary" style={{
+                        backgroundColor: "green !important"
+                    }}
+                        onClick={() => {
+                            setEditProduct(record);
+                            setIsModalOpenEdit(true);
+                        }}>Chỉnh sửa</Button>
+                </Space>
+            ),
+        },
+    ];
 
     const showModal = () => {
         setIsModalOpen(true);
@@ -138,10 +145,10 @@ const ManageBrand = () => {
             <p className='' style={{
                 fontSize: '18px',
                 fontWeight: 'bold',
-            }}>Manage Brand</p>
+            }}>Quản lí nhãn hàng</p>
             <Button type="primary" style={{
                 backgroundColor: "blue"
-            }} onClick={showModal}>Add new brand</Button>
+            }} onClick={showModal}>Thêm nhãn hàng</Button>
         </Header>
         <Spin spinning={isLoading}>
             <div style={{
@@ -150,7 +157,50 @@ const ManageBrand = () => {
                 <Table columns={columns} dataSource={data} rowKey={'logo'} />
             </div>
         </Spin>
-        <Modal title="Add new brand" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+        <Modal title="Thêm nhãn hàng" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+            <Spin spinning={isLoading}>
+                <div style={{ marginTop: '20px' }}>
+                    <p style={{ marginBottom: '10px', fontWeight: '500', fontSize: '16px' }}>Logo</p>
+                    <input
+                        type='file'
+                        id="logoInput"
+                        onChange={(e) => setNewBrand({ ...newBrand, logo: e.target.files[0] })}
+                    />
+                </div>
+                <div style={{ marginTop: '20px' }}>
+                    <p style={{ marginBottom: '10px', fontWeight: '500', fontSize: '16px' }}>Tên</p>
+                    <Input
+                        value={newBrand.name}
+                        onChange={(e) => setNewBrand({ ...newBrand, name: e.target.value })}
+                    />
+                </div>
+                <div style={{ marginTop: '20px' }}>
+                    <p style={{ marginBottom: '10px', fontWeight: '500', fontSize: '16px' }}>Xuất xứ</p>
+                    <Input
+                        value={newBrand.comeFrom}
+                        onChange={(e) => setNewBrand({ ...newBrand, comeFrom: e.target.value })}
+                    />
+                </div>
+
+                <div style={{ marginTop: '20px' }}>
+                    <p style={{ marginBottom: '10px', fontWeight: '500', fontSize: '16px' }}>Danh mục</p>
+                    <Select
+                        showSearch
+                        placeholder="Select a category"
+                        optionFilterProp="children"
+                        onChange={onChange}
+                        onSearch={onSearch}
+                        filterOption={filterOption}
+                        options={category}
+                    />
+                </div>
+
+            </Spin>
+        </Modal>
+
+        <Modal title="Edit brand" open={isModalOpenEdit} onOk={() => {
+
+        }} onCancel={() => { setIsModalOpenEdit(false) }}>
             <Spin spinning={isLoading}>
                 <div style={{ marginTop: '20px' }}>
                     <p style={{ marginBottom: '10px', fontWeight: '500', fontSize: '16px' }}>Logo</p>

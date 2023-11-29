@@ -23,6 +23,7 @@ import { fetchCart } from './store/actions/cartAction';
 import Payment from './pages/public/Payment/Payment';
 import ManageBill from './pages/admin/ManageBill';
 import ManageSale from './pages/admin/ManageSale';
+import UserProfile from './pages/public/User/UserProfile';
 
 function App() {
   const { isLoggedIn, userCurrent } = useSelector((state) => state.auth);
@@ -55,6 +56,7 @@ function App() {
           <Route path="category" element={<AllProduct></AllProduct>}></Route>
           <Route path="cart" element={<Cart></Cart>}></Route>
           <Route path="payment" element={<Payment></Payment>}></Route>
+          <Route path="profile" element={<UserProfile></UserProfile>}></Route>
         </Route>
         <Route path="/admin/*" element={<Dashboard />}>
           <Route index element={<ManageBrand />} />

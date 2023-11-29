@@ -100,13 +100,13 @@ const CreateProduct = () => {
             <p className='' style={{
                 fontSize: '18px',
                 fontWeight: 'bold',
-            }}>Create Product</p>
+            }}>Tạo sản phẩm</p>
         </Header>
         <Spin spinning={isLoading}>
             <div style={{ margin: '0 20px' }}>
                 <div style={{ display: "flex", justifyContent: "space-around", gap: '30px' }}>
                     <div style={{ marginTop: '20px', width: "100%" }}>
-                        <p style={{ marginBottom: '10px', fontWeight: '500', fontSize: '16px' }}>Product's name</p>
+                        <p style={{ marginBottom: '10px', fontWeight: '500', fontSize: '16px' }}>Tên sản phẩm</p>
                         <Input
                             value={newProduct?.name}
                             onChange={(e) => setNewProduct({ ...newProduct, name: e.target.value })}
@@ -120,7 +120,7 @@ const CreateProduct = () => {
                         />
                     </div>
                     <div style={{ marginTop: '20px', width: "100%" }}>
-                        <p style={{ marginBottom: '10px', fontWeight: '500', fontSize: '16px' }}>Price</p>
+                        <p style={{ marginBottom: '10px', fontWeight: '500', fontSize: '16px' }}>Giá</p>
                         <Input
                             value={newProduct?.price}
                             onChange={(e) => setNewProduct({ ...newProduct, price: e.target.value })}
@@ -138,14 +138,14 @@ const CreateProduct = () => {
                         />
                     </div>
                     <div style={{ marginTop: '20px', width: "100%" }}>
-                        <p style={{ marginBottom: '10px', fontWeight: '500', fontSize: '16px' }}>Amount</p>
+                        <p style={{ marginBottom: '10px', fontWeight: '500', fontSize: '16px' }}>Số lượng</p>
                         <Input
                             value={newProduct?.amount}
                             onChange={(e) => setNewProduct({ ...newProduct, amount: e.target.value })}
                         />
                     </div>
                     <div style={{ marginTop: '20px', width: "100%" }}>
-                        <p style={{ marginBottom: '10px', fontWeight: '500', fontSize: '16px' }}>Topic</p>
+                        <p style={{ marginBottom: '10px', fontWeight: '500', fontSize: '16px' }}>Chủ đề</p>
                         <Input
                             value={newProduct?.topic}
                             onChange={(e) => setNewProduct({ ...newProduct, topic: e.target.value })}
@@ -156,7 +156,7 @@ const CreateProduct = () => {
                 <div style={{ display: "flex", justifyContent: "space-around", gap: '30px' }}>
 
                     <div style={{ marginTop: '20px', width: "100%" }}>
-                        <p style={{ marginBottom: '10px', fontWeight: '500', fontSize: '16px' }}>Made in</p>
+                        <p style={{ marginBottom: '10px', fontWeight: '500', fontSize: '16px' }}>Xuất xứ</p>
                         <Input
                             value={newProduct?.madeIn}
                             onChange={(e) => setNewProduct({ ...newProduct, madeIn: e.target.value })}
@@ -170,10 +170,33 @@ const CreateProduct = () => {
                         />
                     </div>
                     <div style={{ marginTop: '20px', width: "100%" }}>
-                        <p style={{ marginBottom: '10px', fontWeight: '500', fontSize: '16px' }}>Age</p>
-                        <Input
-                            value={newProduct?.age}
-                            onChange={(e) => setNewProduct({ ...newProduct, age: e.target.value })}
+                        <p style={{ marginBottom: '10px', fontWeight: '500', fontSize: '16px' }}>Tuổi</p>
+                        <Select
+                            placeholder="Chọn độ tuổi"
+                            optionFilterProp="children"
+                            onChange={(value) => { setNewProduct({ ...newProduct, age: value }) }}
+                            options={[
+                                {
+                                    label: '0-12 tháng tuổi',
+                                    value: '0-12 tháng tuổi'
+                                },
+                                {
+                                    label: '1-3 tuổi',
+                                    value: '1-3 tuổi'
+                                },
+                                {
+                                    label: '3-6 tuổi',
+                                    value: '3-6 tuổi'
+                                },
+                                {
+                                    label: '6-12 tuổi',
+                                    value: '6-12 tuổi'
+                                },
+                                {
+                                    label: '12 tuổi trở lên',
+                                    value: '12 tuổi trở lên'
+                                }
+                            ]}
                         />
                     </div>
                 </div>
@@ -181,14 +204,30 @@ const CreateProduct = () => {
                 <div style={{ display: "flex", justifyContent: "space-around", gap: '30px' }}>
 
                     <div style={{ marginTop: '20px', width: "100%" }}>
-                        <p style={{ marginBottom: '10px', fontWeight: '500', fontSize: '16px' }}>Gender</p>
-                        <Input
-                            value={newProduct?.gender}
-                            onChange={(e) => setNewProduct({ ...newProduct, gender: e.target.value })}
+                        <p style={{ marginBottom: '10px', fontWeight: '500', fontSize: '16px' }}>Giới tính</p>
+                        <Select
+
+                            placeholder="Chọn danh mục"
+                            optionFilterProp="children"
+                            onChange={(value) => { setNewProduct({ ...newProduct, gender: value }) }}
+                            options={[
+                                {
+                                    label: 'Nam',
+                                    value: 'Nam'
+                                },
+                                {
+                                    label: 'Nữ',
+                                    value: 'Nữ'
+                                },
+                                {
+                                    label: 'Unisex',
+                                    value: 'Unisex'
+                                },
+                            ]}
                         />
                     </div>
                     <div style={{ marginTop: '20px', width: "100%" }}>
-                        <p style={{ marginBottom: '10px', fontWeight: '500', fontSize: '16px' }}>Category</p>
+                        <p style={{ marginBottom: '10px', fontWeight: '500', fontSize: '16px' }}>Danh mục</p>
                         <Select
                             showSearch
                             placeholder="Select a category"
@@ -199,7 +238,7 @@ const CreateProduct = () => {
                         />
                     </div>
                     <div style={{ marginTop: '20px', width: "100%" }}>
-                        <p style={{ marginBottom: '10px', fontWeight: '500', fontSize: '16px' }}>Brand</p>
+                        <p style={{ marginBottom: '10px', fontWeight: '500', fontSize: '16px' }}>Hãng</p>
                         <Select
                             showSearch
                             placeholder="Select a brand"
@@ -212,14 +251,14 @@ const CreateProduct = () => {
                 </div>
 
                 <div style={{ marginTop: '20px' }}>
-                    <p style={{ marginBottom: '10px', fontWeight: '500', fontSize: '16px' }}>Images of product</p>
+                    <p style={{ marginBottom: '10px', fontWeight: '500', fontSize: '16px' }}>Hình ảnh mô tả</p>
                     <div style={{}}>
                         <input type="file" multiple onChange={(e) => setNewProduct({ ...newProduct, images: e.target.files })} />
                     </div>
                 </div>
 
                 <div style={{ marginTop: '20px' }}>
-                    <p style={{ marginBottom: '10px', fontWeight: '500', fontSize: '16px' }}>Description</p>
+                    <p style={{ marginBottom: '10px', fontWeight: '500', fontSize: '16px' }}>Mô tả</p>
                     <div style={{ backgroundColor: 'white' }}>
                         <ReactQuill
                             theme="snow"
@@ -255,7 +294,7 @@ const CreateProduct = () => {
             <div style={{ marginTop: '20px', padding: '0 20px', display: 'flex', justifyContent: 'end' }}>
                 <Button type="primary" style={{
                     backgroundColor: "blue"
-                }} onClick={() => { createProduct() }}>Create</Button>
+                }} onClick={() => { createProduct() }}>Tạo</Button>
             </div>
         </Spin>
     </>

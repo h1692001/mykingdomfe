@@ -13,7 +13,7 @@ export default function Header() {
   const { isLoggedIn, userCurrent } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const { cart } = useSelector((state) => state.cart);
-  console.log(cart);
+
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
     return () => {
@@ -102,16 +102,22 @@ export default function Header() {
               <div className="Header_Two_Content_Account_Text">
                 <div className="Account">TÀI KHOẢN</div>
                 {isHovered && !isLoggedIn && (
-                  <ul className="Header_Two_Content_Account_Options">
+                  <ul className="Header_Two_Content_Account_Options" style={{ zIndex: '20' }}>
                     <li onClick={Register}>Đăng ký tài khoản</li>
                     <li onClick={Login}>Đăng nhập</li>
                   </ul>
                 )}
 
                 {isHovered && isLoggedIn && (
-                  <ul className="Header_Two_Content_Account_Options">
-                    <li className="">Tài khoản</li>
-                    <li>Tình trạng đơn hàng</li>
+                  <ul className="Header_Two_Content_Account_Options" style={{ zIndex: '20' }}>
+                    <li
+                      className=""
+                      onClick={() => {
+                        navigate('/profile');
+                      }}
+                    >
+                      Tài khoản
+                    </li>
                     {userCurrent?.role === 'ADMIN' && (
                       <li
                         onClick={() => {
@@ -133,15 +139,15 @@ export default function Header() {
               </div>
             </div>
 
-            <div className="Header_Two_Content_Cart relative">
+            <Link to="/cart" className="Header_Two_Content_Cart relative">
               <div className="absolute w-[20px] h-[20px] flex items-center justify-center text-[13px] rounded-[50%] leading-1 bg-[#d9554a] text-[#fff] top-[25px] left-[6px] inline-block">
                 <p style={{ lineHeight: '10px' }}>{cart?.cartProducts && cart?.cartProducts?.length > 0 ? cart?.cartProducts.length : 0}</p>
               </div>
-              <Link to="/cart" className="Header_Two_Content_Cart_Icon">
+              <div className="Header_Two_Content_Cart_Icon">
                 <i class="fa fa-cart-arrow-down" aria-hidden="true" style={{ fontSize: '30px', marginTop: '35px' }}></i>
-              </Link>
+              </div>
               <div className="Header_Two_Content_Cart_Text">GIỎ HÀNG</div>
-            </div>
+            </Link>
           </div>
         </div>
       </div>

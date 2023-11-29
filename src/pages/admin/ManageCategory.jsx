@@ -17,19 +17,19 @@ const columns = [
         }} alt='logo'></img>,
     },
     {
-        title: 'Logo',
+        title: 'Tên danh mục',
         dataIndex: 'name',
         key: 'name',
         render: (text) => <p>{text}</p>,
     },
     {
-        title: 'Action',
+        title: '',
         key: 'action',
         render: (_, record) => (
             <Space size="middle">
                 <Button type="primary" style={{
                     backgroundColor: "green !important"
-                }}>Edit</Button>
+                }}>Chỉnh sửa</Button>
             </Space>
         ),
     },
@@ -101,10 +101,10 @@ const ManageCategory = () => {
             <p className='' style={{
                 fontSize: '18px',
                 fontWeight: 'bold',
-            }}>Manage Category</p>
+            }}>Quản lí danh mục</p>
             <Button type="primary" style={{
                 backgroundColor: "blue"
-            }} onClick={showModal}>Add new category</Button>
+            }} onClick={showModal}>Thêm danh mục</Button>
         </Header>
         <Spin spinning={isLoading}>
             <div style={{
@@ -113,7 +113,7 @@ const ManageCategory = () => {
                 <Table columns={columns} dataSource={data} rowKey={'logo'} />
             </div>
         </Spin>
-        <Modal title="Add new category" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+        <Modal title="Thêm danh mục" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
             <Spin spinning={isLoading}>
 
                 <div style={{ marginTop: '20px' }}>
@@ -126,7 +126,7 @@ const ManageCategory = () => {
                 </div>
 
                 <div style={{ marginTop: '20px' }}>
-                    <p style={{ marginBottom: '10px', fontWeight: '500', fontSize: '16px' }}>Category's name</p>
+                    <p style={{ marginBottom: '10px', fontWeight: '500', fontSize: '16px' }}>Tên danh mục</p>
                     <Input
                         value={newCategory.name}
                         onChange={(e) => setNewCategory({ ...newCategory, name: e.target.value })}

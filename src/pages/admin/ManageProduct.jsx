@@ -10,12 +10,12 @@ const { Header } = Layout;
 
 const columns = [
     {
-        title: 'Product Name',
+        title: 'Tên sản phẩm',
         dataIndex: 'name',
         key: 'name',
     },
     {
-        title: 'Price',
+        title: 'Giá',
         dataIndex: 'price',
         key: 'price',
     },
@@ -25,17 +25,17 @@ const columns = [
         key: 'saleOff',
     },
     {
-        title: 'Amount',
+        title: 'Số lượng',
         dataIndex: 'amount',
         key: 'amount',
     },
     {
-        title: 'Topic',
+        title: 'Chủ đề',
         dataIndex: 'topic',
         key: 'topic',
     },
     {
-        title: 'Category',
+        title: 'Danh mục',
         dataIndex: 'category',
         key: 'category',
         render: (data) => {
@@ -53,13 +53,13 @@ const columns = [
         key: 'vtid',
     },
     {
-        title: 'Action',
+        title: '',
         key: 'action',
         render: (_, record) => (
             <Space size="middle">
                 <Button type="primary" style={{
                     backgroundColor: "green !important"
-                }}>Edit</Button>
+                }}>Chỉnh sửa</Button>
             </Space>
         ),
     },
@@ -98,10 +98,10 @@ const ManageProduct = () => {
             <p className='' style={{
                 fontSize: '18px',
                 fontWeight: 'bold',
-            }}>Manage Product</p>
+            }}>Quản lí sản phẩm</p>
             <Button type="primary" style={{
                 backgroundColor: "blue"
-            }} onClick={() => { navigate("/admin/createProduct") }}>Add new product</Button>
+            }} onClick={() => { navigate("/admin/createProduct") }}>Thêm sản phẩm </Button>
         </Header>
         <Spin spinning={isLoading}>
             <div style={{

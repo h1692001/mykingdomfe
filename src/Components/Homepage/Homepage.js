@@ -9,6 +9,14 @@ import ToyManual from './ToyManual';
 import Footer from '../../Containers/Footer/Footer';
 import CategoryApi from '../../api/CategoryApi';
 import { useEffect, useState } from 'react';
+import { Carousel } from 'antd';
+import banner1 from '../../Assets/banner/1.png';
+import banner2 from '../../Assets/banner/2.png';
+import banner3 from '../../Assets/banner/3.png';
+import banner4 from '../../Assets/banner/4.png';
+import banner5 from '../../Assets/banner/5.png';
+import banner6 from '../../Assets/banner/6.jpg';
+
 export default function Homepage() {
   const [category, setCategory] = useState([]);
   const fetchCategory = async () => {
@@ -20,7 +28,14 @@ export default function Homepage() {
   }, []);
   return (
     <div>
-      <div className="Background_Homepage"></div>
+      <Carousel autoplay autoplaySpeed={3000}>
+        <img src={banner1} alt="bn1"></img>
+        <img src={banner2} alt="bn1"></img>
+        <img src={banner3} alt="bn1"></img>
+        <img src={banner4} alt="bn1"></img>
+        <img src={banner5} alt="bn1"></img>
+        <img src={banner6} alt="bn1"></img>
+      </Carousel>
       <SpecialSale />
       <div style={{ marginTop: '50px' }}></div>
       <FeaturedToyCatalog />

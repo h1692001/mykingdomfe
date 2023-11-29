@@ -3,6 +3,8 @@ import { DesktopOutlined, FileOutlined, PieChartOutlined, TeamOutlined, UserOutl
 import { Breadcrumb, Layout, Menu, theme } from 'antd';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
+import { GoHomeFill } from 'react-icons/go';
+
 const { Header, Content, Footer, Sider } = Layout;
 function getItem(label, key, icon, children) {
   return {
@@ -13,11 +15,12 @@ function getItem(label, key, icon, children) {
   };
 }
 const items = [
-  getItem('Manage Brand', '', <PieChartOutlined />),
-  getItem('Manage Category', '/managecategory', <DesktopOutlined />),
-  getItem('Manage Product', '/manageproduct', <FileOutlined />),
-  getItem('Manage Bill', '/managebill', <FileOutlined />),
-  getItem('Manage Sale', '/managesale', <FileOutlined />),
+  getItem('Trở lại trang chủ', '/', <GoHomeFill />),
+  getItem('Quản lí nhãn hàng', '/admin' + '', <PieChartOutlined />),
+  getItem('Quản lí danh mục', '/admin' + '/managecategory', <DesktopOutlined />),
+  getItem('Quản lí sản phẩm', '/admin' + '/manageproduct', <FileOutlined />),
+  getItem('Quản lí đơn hàng', '/admin' + '/managebill', <FileOutlined />),
+  getItem('Quản lí đợt sale', '/admin' + '/managesale', <FileOutlined />),
 ];
 const Dashboard = () => {
   const [collapsed, setCollapsed] = useState(false);
@@ -38,14 +41,13 @@ const Dashboard = () => {
       }}
     >
       <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
-        <div className="demo-logo-vertical" />
         <Menu
           theme="dark"
           defaultSelectedKeys={['']}
           mode="inline"
           items={items}
           onClick={(item, key, keyPath, domEvent) => {
-            navigate('/admin' + item.key);
+            navigate(item.key);
           }}
         />
       </Sider>

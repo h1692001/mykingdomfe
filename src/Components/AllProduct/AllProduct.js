@@ -15,16 +15,103 @@ export default function AllProduct() {
   const [category, setCategory] = useState([]);
   const [brand, setBrand] = useState([]);
   const [product, setProduct] = useState();
-  const [selectedBrand, setSelectedBrand] = useState();
+  const [selectedCategory, setSelectedCategory] = useState([]);
+  const [selectedBrand, setSelectedBrand] = useState([]);
   const [sortedProduct, setSortedProduct] = useState();
   const [searchBrand, setSearchBrand] = useState();
   const [targetPrice, setTargetPrice] = useState([10000, 10000000]);
   const [selectedGender, setSelectedGender] = useState([]);
+  const [selectedAge, setSelectedAge] = useState([]);
   const [sort, setSort] = useState('');
+
+  useEffect(() => {
+    setSortedProduct(product?.filter((pr) => pr.price >= targetPrice[0] && pr.price <= targetPrice[1]));
+  }, [targetPrice]);
+
+  useEffect(() => {
+    if (selectedAge.length > 0) {
+      setSortedProduct(
+        product?.filter((pr) => {
+          let rs = false;
+          selectedAge.forEach((dt) => {
+            if (dt === pr.age) {
+              rs = true;
+            }
+          });
+          return rs;
+        })
+      );
+    } else setSortedProduct(product);
+  }, [selectedAge]);
+
+  useEffect(() => {
+    if (selectedGender.length > 0) {
+      setSortedProduct(
+        product?.filter((pr) => {
+          let rs = false;
+          selectedGender.forEach((dt) => {
+            if (dt === pr.gender) {
+              rs = true;
+            }
+          });
+          return rs;
+        })
+      );
+    } else setSortedProduct(product);
+  }, [selectedGender]);
+
+  useEffect(() => {
+    if (selectedBrand.length > 0) {
+      setSortedProduct(
+        product?.filter((pr) => {
+          let rs = false;
+          console.log(pr);
+          selectedBrand.forEach((dt) => {
+            if (dt === pr.brand.name) {
+              rs = true;
+            }
+          });
+          return rs;
+        })
+      );
+    } else setSortedProduct(product);
+  }, [selectedBrand]);
+
+  useEffect(() => {
+    if (selectedCategory.length > 0) {
+      setSortedProduct(
+        product?.filter((pr) => {
+          let rs = false;
+          selectedCategory.forEach((dt) => {
+            if (dt === pr.category.name) {
+              rs = true;
+            }
+          });
+          return rs;
+        })
+      );
+    } else setSortedProduct(product);
+  }, [selectedCategory]);
+
+  useEffect(() => {
+    if (sort === 'ASC') {
+      setSortedProduct(product?.sort((a, b) => a.price - b.price));
+    } else {
+      setSortedProduct(product?.sort((a, b) => b.price - a.price));
+    }
+  }, [sort, product]);
+
   const fetchCategory = async () => {
     try {
       const res = await CategoryApi.getAllCategory();
-      setCategory(res);
+      const br = [];
+      res.forEach((dt) => {
+        br.push({
+          label: dt.name,
+          value: dt.name,
+        });
+      });
+      setCategory(br);
     } catch (e) {}
   };
   const fetchProduct = async () => {
@@ -41,7 +128,7 @@ export default function AllProduct() {
       res.forEach((dt) => {
         br.push({
           label: dt.name,
-          value: dt.id,
+          value: dt.name,
         });
       });
       setBrand(br);
@@ -66,13 +153,16 @@ export default function AllProduct() {
               <div>
                 <p style={{ fontSize: '14px', fontWeight: '600' }}>DANH MỤC</p>
                 <div style={{ padding: '15px 0px' }}>
-                  {category?.map((cate) => {
-                    return (
-                      <p key={cate.id} style={{ color: '#444', fontSize: '14px', paddingBottom: '10px', marginTop: '4px', borderBottom: '1px solid #ededed', width: '100%' }}>
-                        {cate?.name}
-                      </p>
-                    );
-                  })}
+                  <Checkbox.Group
+                    style={{
+                      display: 'grid',
+                      gap: '10px',
+                    }}
+                    options={category}
+                    onChange={(e) => {
+                      setSelectedCategory(e);
+                    }}
+                  />
                 </div>
               </div>
               <div>
@@ -139,14 +229,14 @@ export default function AllProduct() {
                       gap: '10px',
                     }}
                     options={[
-                      { label: '12 tuổi trở lên', value: 1 },
-                      { label: '6-12 tuổi', value: 2 },
-                      { label: '3-6 tuổi', value: 3 },
-                      { label: '1-3 tuổi', value: 4 },
-                      { label: '0-12 tháng', value: 5 },
+                      { label: '12 tuổi trở lên', value: '12 tuổi trở lên' },
+                      { label: '6-12 tuổi', value: '6-12 tuổi' },
+                      { label: '3-6 tuổi', value: '3-6 tuổi' },
+                      { label: '1-3 tuổi', value: '1-3 tuổi' },
+                      { label: '0-12 tháng', value: '0-12 tháng' },
                     ]}
                     onChange={(e) => {
-                      console.log(e);
+                      setSelectedAge(e);
                     }}
                   />
                 </div>
@@ -161,9 +251,9 @@ export default function AllProduct() {
                       gap: '10px',
                     }}
                     options={[
-                      { label: 'Nam', value: 1 },
-                      { label: 'Nữ', value: 2 },
-                      { label: 'Unisex', value: 3 },
+                      { label: 'Nam', value: 'Nam' },
+                      { label: 'Nữ', value: 'Nữ' },
+                      { label: 'Unisex', value: 'Unisex' },
                     ]}
                     onChange={(e) => {
                       setSelectedGender(e);
@@ -180,7 +270,6 @@ export default function AllProduct() {
                     onChange={(e) => {
                       setSearchBrand((prev) => {
                         const newPre = brand.filter((dt) => dt.label.includes(e.target.value));
-
                         return newPre;
                       });
                     }}
@@ -204,7 +293,10 @@ export default function AllProduct() {
                 <div className="flex gap-[10px] items-center">
                   <p>Sắp xếp theo:</p>
                   <Radio.Group
-                    onChange={() => {}}
+                    onChange={(e) => {
+                      console.log(e.target.value);
+                      setSort(e.target.value);
+                    }}
                     style={{
                       marginBottom: 8,
                     }}
