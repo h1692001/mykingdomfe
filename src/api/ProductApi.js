@@ -28,6 +28,10 @@ const ProductApi = {
     const url = '/product/updateProduct';
     return axiosClients.put(url, data);
   },
+  voteProduct: (data) => {
+    const url = '/product/voteProduct';
+    return axiosClients.post(url, data);
+  },
 };
 
 export default ProductApi;

@@ -25,6 +25,14 @@ import ManageBill from './pages/admin/ManageBill';
 import ManageSale from './pages/admin/ManageSale';
 import UserProfile from './pages/public/User/UserProfile';
 import UpdateProduct from './pages/admin/UpdateProduct';
+import Statistic from './pages/admin/Statistic';
+import PaymentSuccess from './pages/public/Payment/PaymentSuccess';
+import ManagePost from './pages/admin/ManagePost';
+import CreatePost from './pages/admin/CreatePost';
+import PostList from './pages/public/Post/PostList';
+import PostDetail from './pages/public/Post/PostDetail';
+import UpdatePost from './pages/admin/UpdatePost';
+import VoteProduct from './pages/public/User/VoteProduct';
 
 function App() {
   const { isLoggedIn, userCurrent } = useSelector((state) => state.auth);
@@ -57,7 +65,11 @@ function App() {
           <Route path="category" element={<AllProduct></AllProduct>}></Route>
           <Route path="cart" element={<Cart></Cart>}></Route>
           <Route path="payment" element={<Payment></Payment>}></Route>
+          <Route path="paymentSuccess" element={<PaymentSuccess></PaymentSuccess>}></Route>
           <Route path="profile" element={<UserProfile></UserProfile>}></Route>
+          <Route path="vaoteProduct" element={<VoteProduct></VoteProduct>}></Route>
+          <Route path="post" element={<PostList></PostList>}></Route>
+          <Route path="postDetail/:id" element={<PostDetail></PostDetail>}></Route>
         </Route>
         <Route path="/admin/*" element={<Dashboard />}>
           <Route index element={<ManageBrand />} />
@@ -67,6 +79,10 @@ function App() {
           <Route path="managecategory" element={<ManageCategory></ManageCategory>}></Route>
           <Route path="managebill" element={<ManageBill></ManageBill>}></Route>
           <Route path="managesale" element={<ManageSale></ManageSale>}></Route>
+          <Route path="managepost" element={<ManagePost></ManagePost>}></Route>
+          <Route path="statistic" element={<Statistic></Statistic>}></Route>
+          <Route path="updatePost/:id" element={<UpdatePost></UpdatePost>}></Route>
+          <Route path="createPost" element={<CreatePost></CreatePost>}></Route>
         </Route>
         <Route path="/guest/*" element={<GuestApp />} />
       </Routes>

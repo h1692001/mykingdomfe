@@ -16,6 +16,7 @@ import banner3 from '../../Assets/banner/3.png';
 import banner4 from '../../Assets/banner/4.png';
 import banner5 from '../../Assets/banner/5.png';
 import banner6 from '../../Assets/banner/6.jpg';
+import { useSelector } from 'react-redux';
 
 export default function Homepage() {
   const [category, setCategory] = useState([]);
@@ -26,6 +27,8 @@ export default function Homepage() {
   useEffect(() => {
     fetchCategory();
   }, []);
+  const { cart } = useSelector((state) => state.cart);
+  console.log(cart);
   return (
     <div>
       <Carousel autoplay autoplaySpeed={3000}>
@@ -41,7 +44,6 @@ export default function Homepage() {
       <FeaturedToyCatalog />
 
       {category.map((cate, i) => {
-        console.log(cate);
         return (
           <>
             <div style={{ marginTop: '50px' }} key={cate.id}></div>

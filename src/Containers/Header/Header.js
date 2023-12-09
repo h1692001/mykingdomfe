@@ -179,7 +179,12 @@ export default function Header() {
           <div className="Member_Incentives">
             <span>ƯU ĐÃI THÀNH VIÊN</span>
           </div>
-          <div className="Handbook">
+          <div
+            className="Handbook"
+            onClick={() => {
+              navigate('/post');
+            }}
+          >
             <span>CẨM NANG</span>
           </div>
         </div>

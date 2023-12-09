@@ -38,6 +38,7 @@ export default function Register() {
         setIsLoading(true);
         const res = await AuthApi.register(e);
         Swal.fire('Yeah!', 'Đăng kí tài khoản thành công', 'success');
+        setIsLoading(false);
       } catch (e) {
         setIsLoading(false);
         Swal.fire('Oops!', e.response.data, 'error');

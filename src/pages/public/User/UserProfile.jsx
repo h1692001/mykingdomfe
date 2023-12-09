@@ -7,6 +7,7 @@ import { GoHomeFill } from 'react-icons/go';
 import UserInfo from "./UserInfo";
 import BillHistory from "./BillHistory";
 import LikedProduct from "./LikedProduct";
+import VoteProduct from './VoteProduct';
 
 const UserProfile = () => {
     const navigate = useNavigate();
@@ -23,9 +24,9 @@ const UserProfile = () => {
     const items = [
         getItem('Thông tin tài khoản', '1', <GoHomeFill />),
         getItem('Lịch sử mua hàng', '2', <PieChartOutlined />),
-        getItem('Sản phẩm đã thích', '3', <PieChartOutlined />),
+        getItem('Đánh giá sản phẩm', '3', <PieChartOutlined />),
     ];
-    console.log(tab);
+
     const {
         token: { colorBgContainer },
     } = theme.useToken();
@@ -54,10 +55,10 @@ const UserProfile = () => {
                         children: <BillHistory></BillHistory>,
                     },
                     {
-                        label: "Sản phẩm đã thích",
+                        label: "Đánh giá sản phẩm",
                         key: 3,
-                        children: <LikedProduct></LikedProduct>,
-                    }
+                        children: <VoteProduct></VoteProduct>,
+                    },
                 ]}
             />
         </div>

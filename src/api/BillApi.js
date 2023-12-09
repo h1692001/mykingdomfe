@@ -12,6 +12,10 @@ const BillApi = {
     const url = '/bill';
     return axiosClients.post(url, data);
   },
+  createBillVNPAY: (data) => {
+    const url = `/vnpay/create-payment?amount=${data}`;
+    return axiosClients.get(url);
+  },
   changeStatusBill: (data) => {
     const url = '/product/changeStatusBill';
     return axiosClients.put(url, data);

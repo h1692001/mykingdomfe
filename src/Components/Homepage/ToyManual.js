@@ -3,71 +3,77 @@ import './ToyManual.scss';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import { useNavigate } from 'react-router-dom';
+import PostApi from '../../api/PostApi';
+import { useEffect, useState } from 'react';
 
-function SampleNextArrow(props) {
-  const { className, style, onClick } = props;
-  return <div className={className} style={{ ...style, display: 'block', background: '#ccc', fontSize: '20px' }} onClick={onClick} />;
-}
-
-function SamplePrevArrow(props) {
-  const { className, style, onClick } = props;
-  return <div className={className} style={{ ...style, display: 'block', background: '#ccc', fontSize: '20px' }} onClick={onClick} />;
-}
 export default function ToyManual() {
+  const navigate = useNavigate();
+  function createMarkup(des) {
+    return { __html: des };
+  }
+  const [post, setPost] = useState([]);
+  const fetchPost = async () => {
+    try {
+      const res = await PostApi.getAll();
+      setPost(res);
+    } catch (e) {}
+  };
+  useEffect(() => {
+    fetchPost();
+  }, []);
   const settings = {
     dots: true,
     infinite: true,
-    slidesToShow: 3,
+    slidesToShow: post?.length > 3 ? 3 : post?.length,
     slidesToScroll: 1,
-    nextArrow: <SampleNextArrow />,
-    prevArrow: <SamplePrevArrow />,
   };
+
   return (
     <div className="ToyManual_Container">
       <div className="ToyManual">
         <div className="ToyManual_Header">
-          <h2 >CẨM NANG ĐỒ CHƠI</h2>
-          <h3 className="ToyManual_Header_Title">>>XEM TẤT CẢ</h3>
+          <h2 style={{ fontWeight: '600', color: '#444', fontSize: '25px' }}>CẨM NANG ĐỒ CHƠI</h2>
+          <h3
+            className="ToyManual_Header_Title"
+            style={{ fontSize: '20px', fontWeight: '600' }}
+            onClick={() => {
+              navigate('/post');
+            }}
+          >
+            >>XEM TẤT CẢ
+          </h3>
         </div>
         <div style={{ marginTop: '20px' }}></div>
         <div className="ToyManual_Content">
-          <Slider {...settings}>
-            <div className="ToyManual_ProductItem">
-              <div className="ToyManual_Image"></div>
-              <div className="ToyManual_ProductItem_NameProduct">Tổng hợp những trò chơi cho bé từ 12-18 tháng tuổi ngay tại nhà</div>
-              <div className="ToyManual_ProductItem_Content">
-                Robot Transformers không chỉ giúp trẻ em có những giờ chơi vui vẻ mà còn mang đến nhiều lợi ích cho sự phát triển của trẻ. Cùng khám phá 4 lợi ích đồ chơi Transformers với trẻ dưới đây
-                nhé.
-              </div>
-              <div className="ToyManual_ProductItem_SeeMore">XEM THÊM</div>
-            </div>
-            <div className="ToyManual_ProductItem">
-              <div className="ToyManual_Image"></div>
-              <div className="ToyManual_ProductItem_NameProduct">Tổng hợp những trò chơi cho bé từ 12-18 tháng tuổi ngay tại nhà</div>
-              <div className="ToyManual_ProductItem_Content">
-                Robot Transformers không chỉ giúp trẻ em có những giờ chơi vui vẻ mà còn mang đến nhiều lợi ích cho sự phát triển của trẻ. Cùng khám phá 4 lợi ích đồ chơi Transformers với trẻ dưới đây
-                nhé.
-              </div>
-              <div className="ToyManual_ProductItem_SeeMore">XEM THÊM</div>
-            </div>
-            <div className="ToyManual_ProductItem">
-              <div className="ToyManual_Image"></div>
-              <div className="ToyManual_ProductItem_NameProduct">Tổng hợp những trò chơi cho bé từ 12-18 tháng tuổi ngay tại nhà</div>
-              <div className="ToyManual_ProductItem_Content">
-                Robot Transformers không chỉ giúp trẻ em có những giờ chơi vui vẻ mà còn mang đến nhiều lợi ích cho sự phát triển của trẻ. Cùng khám phá 4 lợi ích đồ chơi Transformers với trẻ dưới đây
-                nhé.
-              </div>
-              <div className="ToyManual_ProductItem_SeeMore">XEM THÊM</div>
-            </div>
-            <div className="ToyManual_ProductItem">
-              <div className="ToyManual_Image"></div>
-              <div className="ToyManual_ProductItem_NameProduct">Tổng hợp những trò chơi cho bé từ 12-18 tháng tuổi ngay tại nhà</div>
-              <div className="ToyManual_ProductItem_Content">
-                Robot Transformers không chỉ giúp trẻ em có những giờ chơi vui vẻ mà còn mang đến nhiều lợi ích cho sự phát triển của trẻ. Cùng khám phá 4 lợi ích đồ chơi Transformers với trẻ dưới đây
-                nhé.
-              </div>
-              <div className="ToyManual_ProductItem_SeeMore">XEM THÊM</div>
-            </div>
+          <Slider {...settings} autoplay autoplaySpeed={2000}>
+            {post?.map((pt) => {
+              return (
+                <div className="ToyManual_ProductItem">
+                  <img src={pt.thumb} style={{ height: '260px', objectFit: 'cover', width: '100%' }} alt="tb"></img>
+                  <div style={{ padding: '20px' }}>
+                    <div
+                      className="ToyManual_ProductItem_NameProduct"
+                      style={{
+                        fontSize: '18px',
+                        textOverflow: 'ellipsis',
+                        color: '#333',
+                        margin: '15px 0 10px',
+                        fontWeight: '600',
+                        WebkitLineClamp: '2',
+                        WebkitBoxOrient: 'vertical',
+                        overflow: 'hidden',
+                        display: '-webkit-box',
+                      }}
+                    >
+                      {pt.title}
+                    </div>
+                    <div className="ToyManual_ProductItem_Content">{pt.des}</div>
+                    <div className="ToyManual_ProductItem_SeeMore">XEM THÊM</div>
+                  </div>
+                </div>
+              );
+            })}
           </Slider>
         </div>
       </div>

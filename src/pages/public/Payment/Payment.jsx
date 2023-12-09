@@ -131,10 +131,36 @@ const Payment = () => {
                             }
                             catch (e) {
                                 Swal.fire("Oops", "Có lỗi xảy ra! Vui lòng thử lại sau", "error");
-
                             }
                         }
-                        pay();
+                        const payVNPAY = async () => {
+                            try {
+                                const totalPrice = cart?.cartProducts?.reduce((total, cur) => {
+                                    const productPrice = cur?.productDTO?.price || 0;
+                                    const saleOff = cur?.productDTO?.saleOff || 0;
+                                    const amount = cur?.amount || 0;
+
+                                    const discountedPrice = productPrice - (productPrice * saleOff) / 100;
+                                    const productTotal = discountedPrice * amount;
+
+                                    return total + Math.ceil(productTotal);
+                                }, 0);
+                                localStorage.setItem("name", name);
+                                localStorage.setItem("phone", phone);
+                                localStorage.setItem("address", address);
+                                localStorage.setItem("userId", userCurrent?.id);
+                                localStorage.setItem("cartId", cart?.id);
+
+                                const res = await BillApi.createBillVNPAY(totalPrice);
+                                window.location.href = res;
+
+                            }
+                            catch (e) {
+                                Swal.fire("Oops", "Có lỗi xảy ra! Vui lòng thử lại sau", "error");
+                            }
+                        }
+                        if (paymentMethod === 'cash') pay()
+                        else payVNPAY();
                     }} style={{ marginTop: '20px', color: 'white', backgroundColor: 'red', fontWeight: '600', fontSize: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '13px 24px 10px', borderRadius: '8px' }}
                     >
                         <p>THANH TOÁN</p>

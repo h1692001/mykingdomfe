@@ -4,6 +4,7 @@ import ProductApi from "../../../api/ProductApi";
 import ImageGallery from "react-image-gallery";
 import "./DetailProduct.scss";
 import { CiStar } from "react-icons/ci";
+import { FaRegStar, FaStar } from "react-icons/fa6";
 import { formatCurrency } from "../../../utils/convertPrice";
 import { MdOutlineAttachMoney } from "react-icons/md";
 import { FaShoppingCart } from "react-icons/fa";
@@ -45,7 +46,17 @@ const DetailProduct = () => {
     function createMarkup(des) {
         return { __html: des };
     }
+    const calculateAverageRating = () => {
+        if (!product?.reviews || product?.reviews.length === 0) {
+            return 0;
+        }
 
+        const totalRating = product.reviews.reduce((sum, review) => sum + review.rating, 0);
+        const averageRating = totalRating / product.reviews.length;
+        return averageRating;
+    };
+
+    const getStarCount = (averageRating) => Math.ceil(averageRating);
     return <div style={{ display: 'flex', justifyContent: "center" }}>
         <div style={{ maxWidth: '1330px', width: '100%', }}>
             <div className="flex mt-[20px]" style={{ marginTop: '20px' }}>
@@ -55,7 +66,13 @@ const DetailProduct = () => {
                 <div className="px-[10px]">
                     <p style={{ fontSize: '18px', marginBottom: '5px', fontWeight: '500' }}>{product?.name}</p>
                     <div className="flex" style={{ color: 'red', fontSize: '18px' }}>
-                        <CiStar /><CiStar /><CiStar /><CiStar /><CiStar />
+                        {Array.from({ length: 5 }, (_, index) => (
+                            index + 1 <= getStarCount(calculateAverageRating()) ? (
+                                <FaStar key={index} />
+                            ) : (
+                                <FaRegStar key={index} />
+                            )
+                        ))}
                     </div>
                     <div className="flex gap-[50px]" style={{ gap: '50px', marginBottom: '10px' }}>
                         <p>Thương hiệu: <Link to={"/sos"} className="text-[#0000c3]" style={{ color: "#0000c3" }}>{product?.brand?.name}</Link></p>
@@ -102,7 +119,7 @@ const DetailProduct = () => {
                             }}>
                             <p>THÊM VÀO GIỎ HÀNG</p>
                         </div>
-                        <CiHeart style={{ color: "#f04e45", fontSize: '40px', marginTop: '10px' }}></CiHeart>
+
                     </div>
                 </div>
             </div>
@@ -152,7 +169,7 @@ const DetailProduct = () => {
                 <div className="SpecialSale_Container">
                     <div className="SpecialSale">
                         <div className="SpecialSale_Product">
-                            <div>
+                            <div className="flex gap-[20px]">
                                 {otherProduct.map((dt) => {
                                     if (dt.id !== product?.id) {
                                         return (

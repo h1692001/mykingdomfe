@@ -21,6 +21,8 @@ const items = [
   getItem('Quản lí sản phẩm', '/admin' + '/manageproduct', <FileOutlined />),
   getItem('Quản lí đơn hàng', '/admin' + '/managebill', <FileOutlined />),
   getItem('Quản lí đợt sale', '/admin' + '/managesale', <FileOutlined />),
+  getItem('Quản lí bài đăng', '/admin' + '/managePost ', <FileOutlined />),
+  getItem('Thống kê doanh thu', '/admin/statistic' + '', <PieChartOutlined />),
 ];
 const Dashboard = () => {
   const [collapsed, setCollapsed] = useState(false);
