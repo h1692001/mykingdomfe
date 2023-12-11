@@ -153,31 +153,13 @@ export default function Header() {
       </div>
       <div className="Main_Menucontent_Container" style={{ top: isFixed ? '0' : '300px', position: isFixed ? 'fixed' : 'static' }}>
         <div className="Main_Menucontent">
-          <div className="New_Product">
-            <span onClick={newProduct}>HÀNG MỚI</span>
-          </div>
           <div className="Product">
             <Link to="/category" style={{ fontWeight: '600', color: 'white' }}>
               SẢN PHẨM
             </Link>
           </div>
-          <div className="Gender">
-            <span>GIỚI TÍNH</span>
-          </div>
-          <div className="Age">
-            <span>ĐỘ TUỔI</span>
-          </div>
-          <div className="TradeMark">
-            <span>THƯƠNG HIỆU</span>
-          </div>
           <div className="Promotion">
             <span>KHUYẾN MÃI</span>
-          </div>
-          <div className="Outstanding_Campaign">
-            <span>CHIẾN DỊCH NỔI BẬT</span>
-          </div>
-          <div className="Member_Incentives">
-            <span>ƯU ĐÃI THÀNH VIÊN</span>
           </div>
           <div
             className="Handbook"

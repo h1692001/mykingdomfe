@@ -2,8 +2,10 @@ import { Breadcrumb, Layout, Menu, theme, DatePicker } from 'antd';
 import { useEffect, useState } from 'react';
 import BrandApi from '../../api/BrandApi';
 import CategoryApi from '../../api/CategoryApi';
-import { Space, Table, Spin, Button, Modal, Input, Select } from 'antd';
+import { Space, Table, Spin, Button, Modal, Input, Select, Tag } from 'antd';
 import Swal from 'sweetalert2';
+import SaleApi from "../../api/SaleApi";
+
 const { Header } = Layout;
 const { RangePicker } = DatePicker;
 
@@ -23,8 +25,8 @@ const ManageSale = () => {
     const columns = [
         {
             title: 'Ảnh bìa',
-            dataIndex: 'logo',
-            key: 'logo',
+            dataIndex: 'image',
+            key: 'image',
             render: (text) => <img src={text} style={{
                 width: '108px',
                 height: "54px",
@@ -43,19 +45,13 @@ const ManageSale = () => {
             render: (text) => <p>{text}</p>,
         },
         {
-            title: 'Từ ngày',
-            dataIndex: 'comeFrom',
-            key: 'comeFrom',
-        },
-        {
-            title: 'Đến ngày',
-            dataIndex: 'comeFrom',
-            key: 'comeFrom',
-        },
-        {
             title: 'Áp dụng cho',
-            dataIndex: 'comeFrom',
             key: 'comeFrom',
+            render: (record) => {
+                return <>
+                    {record?.categories?.map(ct => <Tag key={ct.id}>{ct?.name}</Tag>)}
+                </>
+            }
         },
         {
             title: '',
@@ -87,7 +83,7 @@ const ManageSale = () => {
     const fetchData = async () => {
         try {
             setIsLoading(true);
-            const res = await BrandApi.getAllBrand();
+            const res = await SaleApi.getAll();
             console.log(res);
             const res2 = await CategoryApi.getAllCategory();
             setData(res);
@@ -172,14 +168,27 @@ const ManageSale = () => {
                 <Table columns={columns} dataSource={data} rowKey={'logo'} />
             </div>
         </Spin>
-        <Modal title="Thêm đợt khuyến mãi" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+        <Modal title="Thêm đợt khuyến mãi" open={isModalOpen} onOk={async () => {
+            try {
+                const formData = new FormData();
+                formData.append("name", newBrand?.name);
+                formData.append("image", newBrand?.image);
+                formData.append("sale", newBrand?.sale);
+                formData.append("category", newBrand?.category);
+
+                const res = await SaleApi.createSale(formData)
+                Swal.fire("Yeah!", "Đã tạo đợt khuyến mãi thành công", "success");
+            } catch (e) {
+                Swal.fire("Oops!", 'Có lỗi xảy ra! Thử lại sau', "error");
+            }
+        }} onCancel={handleCancel}>
             <Spin spinning={isLoading}>
                 <div style={{ marginTop: '20px' }}>
                     <p style={{ marginBottom: '10px', fontWeight: '500', fontSize: '16px' }}>Ảnh bìa</p>
                     <input
                         type='file'
                         id="logoInput"
-                        onChange={(e) => setNewBrand({ ...newBrand, logo: e.target.files[0] })}
+                        onChange={(e) => setNewBrand({ ...newBrand, image: e.target.files[0] })}
                     />
                 </div>
                 <div style={{ marginTop: '20px' }}>
@@ -192,8 +201,8 @@ const ManageSale = () => {
                 <div style={{ marginTop: '20px' }}>
                     <p style={{ marginBottom: '10px', fontWeight: '500', fontSize: '16px' }}>% Giảm giá</p>
                     <Input
-                        value={newBrand.comeFrom}
-                        onChange={(e) => setNewBrand({ ...newBrand, comeFrom: e.target.value })}
+                        value={newBrand.sale}
+                        onChange={(e) => setNewBrand({ ...newBrand, sale: e.target.value })}
                     />
                 </div>
 
@@ -208,52 +217,69 @@ const ManageSale = () => {
                         onSearch={onSearch}
                         filterOption={filterOption}
                         options={category}
+                        style={{
+                            width: '100%'
+                        }}
                     />
                 </div>
 
             </Spin>
         </Modal>
 
-        <Modal title="Edit brand" open={isModalOpenEdit} onOk={() => {
-
+        <Modal title="Sửa thông tin khuyến mãi" open={isModalOpenEdit} onOk={async () => {
+            try {
+                const formData = new FormData();
+                formData.append("name", editProduct?.name);
+                formData.append("image", editProduct?.image);
+                formData.append("sale", editProduct?.sale);
+                formData.append("category", editProduct?.category);
+                formData.append("id", editProduct?.id);
+                const res = await SaleApi.updateSale(formData)
+                Swal.fire("Yeah!", "Đã sửa đợt khuyến mãi thành công", "success");
+            } catch (e) {
+                Swal.fire("Oops!", 'Có lỗi xảy ra! Thử lại sau', "error");
+            }
         }} onCancel={() => { setIsModalOpenEdit(false) }}>
             <Spin spinning={isLoading}>
                 <div style={{ marginTop: '20px' }}>
-                    <p style={{ marginBottom: '10px', fontWeight: '500', fontSize: '16px' }}>Logo</p>
+                    <p style={{ marginBottom: '10px', fontWeight: '500', fontSize: '16px' }}>Ảnh bìa</p>
                     <input
                         type='file'
                         id="logoInput"
-                        onChange={(e) => setNewBrand({ ...newBrand, logo: e.target.files[0] })}
+                        onChange={(e) => setEditProduct({ ...editProduct, image: e.target.files[0] })}
                     />
                 </div>
                 <div style={{ marginTop: '20px' }}>
-                    <p style={{ marginBottom: '10px', fontWeight: '500', fontSize: '16px' }}>Brand's name</p>
+                    <p style={{ marginBottom: '10px', fontWeight: '500', fontSize: '16px' }}>Tên đợt khuyến mãi</p>
                     <Input
-                        value={newBrand.name}
-                        onChange={(e) => setNewBrand({ ...newBrand, name: e.target.value })}
+                        value={editProduct.name}
+                        onChange={(e) => setEditProduct({ ...editProduct, name: e.target.value })}
                     />
                 </div>
                 <div style={{ marginTop: '20px' }}>
-                    <p style={{ marginBottom: '10px', fontWeight: '500', fontSize: '16px' }}>Come from</p>
+                    <p style={{ marginBottom: '10px', fontWeight: '500', fontSize: '16px' }}>% Giảm giá</p>
                     <Input
-                        value={newBrand.comeFrom}
-                        onChange={(e) => setNewBrand({ ...newBrand, comeFrom: e.target.value })}
+                        value={editProduct.sale}
+                        onChange={(e) => setEditProduct({ ...editProduct, sale: e.target.value })}
                     />
                 </div>
 
                 <div style={{ marginTop: '20px' }}>
-                    <p style={{ marginBottom: '10px', fontWeight: '500', fontSize: '16px' }}>Category</p>
+                    <p style={{ marginBottom: '10px', fontWeight: '500', fontSize: '16px' }}>Áp dụng cho</p>
                     <Select
                         showSearch
+                        mode="multiple"
                         placeholder="Select a category"
                         optionFilterProp="children"
-                        onChange={onChange}
+                        onChange={(e) => { setEditProduct({ ...editProduct, category: e }) }}
                         onSearch={onSearch}
                         filterOption={filterOption}
                         options={category}
+                        style={{
+                            width: '100%'
+                        }}
                     />
                 </div>
-
             </Spin>
         </Modal>
     </>

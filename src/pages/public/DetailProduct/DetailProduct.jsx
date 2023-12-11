@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 import ProductApi from "../../../api/ProductApi";
 import ImageGallery from "react-image-gallery";
 import "./DetailProduct.scss";
-import { CiStar } from "react-icons/ci";
 import { FaRegStar, FaStar } from "react-icons/fa6";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { formatCurrency } from "../../../utils/convertPrice";
 import { MdOutlineAttachMoney } from "react-icons/md";
 import { FaShoppingCart } from "react-icons/fa";
@@ -15,17 +15,21 @@ import CartApi from "../../../api/CartApi";
 import { fetchCart } from "../../../store/actions/cartAction";
 import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
+import ReactStars from 'react-stars'
 
 const DetailProduct = () => {
     const [product, setProduct] = useState();
     const [otherProduct, setOtherProduct] = useState([]);
+    const { userCurrent, isLoggedIn } = useSelector(state => state.auth);
     const params = useParams();
     const [images, setImages] = useState([]);
     const [amount, setAmount] = useState(1);
+    const [isFavourite, setIsFavourite] = useState(false);
     const dispatch = useDispatch();
     const { cart } = useSelector(state => state.cart);
     const fetchProduct = async () => {
         const res = await ProductApi.getById(params.id);
+
         const res2 = await ProductApi.getByCategory(res.category.id);
         const imgs = [];
         res.images.forEach(img => {
@@ -42,21 +46,47 @@ const DetailProduct = () => {
     useEffect(() => {
         fetchProduct();
     }, [])
+    const checkFavourite = async () => {
+        try {
+            const res3 = await ProductApi.checkFavourite(userCurrent?.id, product.id);
+            if (res3 === 'ok') {
+                setIsFavourite(true);
+            } else setIsFavourite(false);
+
+        } catch (e) {
+
+        }
+    }
+    useEffect(() => {
+        if (isLoggedIn) {
+            checkFavourite();
+        }
+    }, [userCurrent, product])
 
     function createMarkup(des) {
         return { __html: des };
     }
-    const calculateAverageRating = () => {
-        if (!product?.reviews || product?.reviews.length === 0) {
-            return 0;
+
+    const addFavourite = async () => {
+        try {
+            const res = await ProductApi.addFavourite({ userId: userCurrent?.id, productId: [product.id] })
+            checkFavourite();
         }
+        catch (e) {
 
-        const totalRating = product.reviews.reduce((sum, review) => sum + review.rating, 0);
-        const averageRating = totalRating / product.reviews.length;
-        return averageRating;
-    };
+        }
+    }
 
-    const getStarCount = (averageRating) => Math.ceil(averageRating);
+    const removeFavourite = async () => {
+        try {
+            const res = await ProductApi.removeFavourite({ userId: userCurrent?.id, productId: [product.id] })
+            checkFavourite();
+        }
+        catch (e) {
+
+        }
+    }
+
     return <div style={{ display: 'flex', justifyContent: "center" }}>
         <div style={{ maxWidth: '1330px', width: '100%', }}>
             <div className="flex mt-[20px]" style={{ marginTop: '20px' }}>
@@ -65,15 +95,16 @@ const DetailProduct = () => {
                 </div>
                 <div className="px-[10px]">
                     <p style={{ fontSize: '18px', marginBottom: '5px', fontWeight: '500' }}>{product?.name}</p>
-                    <div className="flex" style={{ color: 'red', fontSize: '18px' }}>
-                        {Array.from({ length: 5 }, (_, index) => (
-                            index + 1 <= getStarCount(calculateAverageRating()) ? (
-                                <FaStar key={index} />
-                            ) : (
-                                <FaRegStar key={index} />
-                            )
-                        ))}
-                    </div>
+                    <ReactStars
+                        count={5}
+                        size={24}
+                        value={product?.vote}
+                        edit={false}
+                        emptyIcon={<FaRegStar></FaRegStar>}
+                        fullIcon={<FaStar></FaStar>}
+                        activeColor="#f04e45"
+                    />
+
                     <div className="flex gap-[50px]" style={{ gap: '50px', marginBottom: '10px' }}>
                         <p>Thương hiệu: <Link to={"/sos"} className="text-[#0000c3]" style={{ color: "#0000c3" }}>{product?.brand?.name}</Link></p>
                         <p> <span className="font-[600]" style={{ fontWeight: '600' }}>SKU</span> {product?.sku}</p>
@@ -119,7 +150,7 @@ const DetailProduct = () => {
                             }}>
                             <p>THÊM VÀO GIỎ HÀNG</p>
                         </div>
-
+                        {isFavourite ? <FaHeart onClick={() => { removeFavourite() }} style={{ color: "#f04e45", fontSize: '40px', marginTop: '10px' }}></FaHeart> : <FaRegHeart onClick={() => { addFavourite() }} style={{ color: "#f04e45", fontSize: '40px', marginTop: '10px' }} />}
                     </div>
                 </div>
             </div>

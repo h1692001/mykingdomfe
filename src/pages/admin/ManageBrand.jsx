@@ -116,7 +116,7 @@ const ManageBrand = () => {
 
         } catch (error) {
             setIsLoading(false);
-            Swal.fire("Error", 'Error creating brand', "error");
+            Swal.fire("Oops!", 'Có lỗi xảy ra! Thử lại sau', "error");
         }
     };
 

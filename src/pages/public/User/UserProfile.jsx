@@ -25,6 +25,7 @@ const UserProfile = () => {
         getItem('Thông tin tài khoản', '1', <GoHomeFill />),
         getItem('Lịch sử mua hàng', '2', <PieChartOutlined />),
         getItem('Đánh giá sản phẩm', '3', <PieChartOutlined />),
+        getItem('Sản phẩm đã thích', '4', <PieChartOutlined />),
     ];
 
     const {
@@ -58,6 +59,11 @@ const UserProfile = () => {
                         label: "Đánh giá sản phẩm",
                         key: 3,
                         children: <VoteProduct></VoteProduct>,
+                    },
+                    {
+                        label: "Sản phẩm đã thích",
+                        key: 4,
+                        children: <LikedProduct></LikedProduct>,
                     },
                 ]}
             />

@@ -140,7 +140,8 @@
   .Main_Menucontent {
     width: 1300px;
     margin: 0 auto;
-    justify-content: space-between;
+    justify-content: start;
+    gap: 60px;
     display: flex;
     line-height: 35px;
     .New_Product,

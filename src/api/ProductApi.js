@@ -32,6 +32,22 @@ const ProductApi = {
     const url = '/product/voteProduct';
     return axiosClients.post(url, data);
   },
+  addFavourite: (data) => {
+    const url = '/product/addFavourite';
+    return axiosClients.post(url, data);
+  },
+  removeFavourite: (data) => {
+    const url = '/product/removeFavourite';
+    return axiosClients.post(url, data);
+  },
+  getFavourite: (userId) => {
+    const url = '/product/getAllFavourite?userId=' + userId;
+    return axiosClients.get(url);
+  },
+  checkFavourite: (userId, productId) => {
+    const url = '/product/checkFavourite?userId=' + userId + '&productId=' + productId;
+    return axiosClients.get(url);
+  },
 };
 
 export default ProductApi;
