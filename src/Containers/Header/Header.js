@@ -89,12 +89,6 @@ export default function Header() {
             </div>
           </div>
           <div className="Header_Two_Content">
-            <div className="Header_Two_Content_Membership">
-              <div className="Header_Two_Content_Membership_Icon">
-                <i class="fa fa-bookmark-o" aria-hidden="true" style={{ fontSize: '30px', marginTop: '35px' }}></i>
-              </div>
-              <div className="Header_Two_Content_Membership_Text">KHTT</div>
-            </div>
             <div className="Header_Two_Content_Account" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
               <div className="Header_Two_Content_Account_Icon">
                 <i class="fa fa-user-circle-o" aria-hidden="true" style={{ fontSize: '30px', marginTop: '35px' }}></i>

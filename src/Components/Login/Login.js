@@ -37,7 +37,7 @@ export default function Login() {
 
       dispatch(login(res));
       setTimeout(() => {
-        navigate('/');
+        window.location.href = '/';
       }, 300);
       setIsLoading(false);
     } catch (e) {
