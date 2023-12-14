@@ -16,12 +16,12 @@ function getItem(label, key, icon, children) {
 }
 const items = [
   getItem('Trở lại trang chủ', '/', <GoHomeFill />),
-  getItem('Quản lí nhãn hàng', '/admin' + '', <PieChartOutlined />),
-  getItem('Quản lí danh mục', '/admin' + '/managecategory', <DesktopOutlined />),
-  getItem('Quản lí sản phẩm', '/admin' + '/manageproduct', <FileOutlined />),
-  getItem('Quản lí đơn hàng', '/admin' + '/managebill', <FileOutlined />),
-  getItem('Quản lí đợt sale', '/admin' + '/managesale', <FileOutlined />),
-  getItem('Quản lí bài đăng', '/admin' + '/managePost ', <FileOutlined />),
+  getItem('Quản lý nhãn hàng', '/admin' + '', <PieChartOutlined />),
+  getItem('Quản lý danh mục', '/admin' + '/managecategory', <DesktopOutlined />),
+  getItem('Quản lý sản phẩm', '/admin' + '/manageproduct', <FileOutlined />),
+  getItem('Quản lý đơn hàng', '/admin' + '/managebill', <FileOutlined />),
+  getItem('Quản lý đợt sale', '/admin' + '/managesale', <FileOutlined />),
+  getItem('Quản lý bài đăng', '/admin' + '/managePost ', <FileOutlined />),
   getItem('Thống kê doanh thu', '/admin/statistic' + '', <PieChartOutlined />),
 ];
 const Dashboard = () => {
